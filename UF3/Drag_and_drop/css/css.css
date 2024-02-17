@@ -4,16 +4,7 @@
     width: 400px;
     border-radius: 5px;
     display: flex;
-    flex-direction: column;
-    
-    .previewImage{
-    width: 100%;
-    display:flex;
-    flex-direction: row;
-    margin-bottom: 20px;
-    align-items: center;
-    }
-    
+    flex-direction: column;    
     align-items: center;
     justify-content: center;
     margin-bottom: 25px;
@@ -36,12 +27,24 @@
     .drop-area button:hover{
     background-color: transparent;
     color: blue;
-    }.previewImage img{
+    }
+    
+    
+    .previewImage{
+        width: 100%;
+        display:flex;
+        flex-direction: row;
+        margin-bottom: 20px;
+        align-items: center;
+        }
+    
+    .previewImage img{
         width: 50px;
         height: 50px;
         object-fit: cover;
         margin-right: 20px;
         }
+        
         .previewImage .removeBtn{
         background-color: red;
         border-radius: 100%;

@@ -1,8 +1,9 @@
+let ficheros = [];
+
 //Para solucionar el error de dropArea is null hace falta el DOMCOntentLoaded para que el codigo que pongas
 //dentro se ejecuta cuando ya se haya cargado todo el html
 document.addEventListener('DOMContentLoaded', function() {
 
-    let ficheros = [];
     let dropArea = document.querySelector('.drop-area');
     let dragDropText = document.querySelector('h2');
     let button = document.querySelector('button');
@@ -33,73 +34,97 @@ document.addEventListener('DOMContentLoaded', function() {
         dropArea.innerHTML = '<h2>Drag & Drop files</h2><button>Upload files</button>';
     });
 
-    dropArea.addEventListener("drop", function(){
-        dropArea.classList.remove('active');
-        dropArea.addEventListener("drop", (event)=>{
+    dropArea.addEventListener("drop", function(event){
+            dropArea.classList.remove('active');
             //con el dataTransfer recibo los datos de los ficheros que se han arrastrado en el dropArea
             //pero los pasa en modo lectura asi que para poder manejar-los hacemos un Array.from para 
             //poder concatenar-lo con el array que hay creado al principio
             ficheros = ficheros.concat(Array.from(event.dataTransfer.files));
-        });
 
         //Con esta funcion muestra los archivos en el espacio del dropArea
         showFiles();
 
     });
 
-    function showFiles() {
-        if (ficheros.length > 0) {
-            // Aqui envio los ficheros a la funcion processFile para que me comprueba la extension si es aceptada o no
-            ficheros.forEach((file, index) => {
-                processFile(file, index);
-            });
-        }
+    //Aqui escucho el boton del html para que cuandop se clique se abra el selector de ficheros
+    button.addEventListener("click", function(e){
+        e.preventDefault();
+        //Con el inputFile abroo el selector de ficheros
+        inputFile.click();
+    });
 
-    }
-
-    //Estas son las extensiones validas
-    const validExtensions = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
-
-    function processFile(file, index) {
-        // Extraer la extensión del archivo
-        const docType = file.type;
-
-        // Comprobar si la extension no es correcta
-        if (!validExtensions.includes(docType)) {
-            //Mensaje de error
-            console.log(`El archivo ${file.name} no tiene una extension válida`);
-            //Aqui borro el archivo del array con el splice
-            ficheros.splice(index, 1);
-            return;
-        }
-
-        //Creo una variable para leer el fichero
-        let reader = new FileReader(); 
-
-        // Aqui leo el archivo para despues poder conseguir la URL con el result 
-        reader.readAsDataURL(file);
-
-
-        //A la variable le pongo el onload que basicamente le dice que una vez se haya leido todo el fichero
-        //se ejecute lo de la funcion para que no de error
-        reader.onload = function () {
-
-            //Aqui me guardo la URL de fichero para poder mostrar-lo en el previw
-            const fileURL = reader.result; 
-
-            // Creo la variable con el resultado que se mostrara de los ficheros
-            let preview = `
-                <div class="previewImage">
-                    <img src="${fileURL}"/>
-                    <span>${file.name}</span>
-                    <span onclick="remove(${index})" class="material-symbols-outlined removeBtn">DELETE</span>
-                </div>
-            `;
-            
-            document.getElementById('preview').innerHTML += preview;
-        };
-
-    }
+    //Aqui escucho al selector de ficheros para que cuando se selecione un fichero y se abra se guarde en ficheros
+    //para filtrar y mostrar si es correcta la extension
+    inputFile.addEventListener("change", function(){
+        ficheros = ficheros.concat(Array.from(inputFile.files));
+        showFiles();
+    });
 
 
 });
+
+
+function showFiles() {
+    //Limpio el preview para mostrar todo sin duplicar-lo
+    preview.innerHTML = '';
+    if (ficheros.length > 0) {
+        // Aqui envio los ficheros a la funcion processFile para que me comprueba la extension si es aceptada o no
+        ficheros.forEach((file, index) => {
+            processFile(file, index);
+        });
+
+    }
+
+}
+
+//Estas son las extensiones validas
+const validExtensions = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+
+function processFile(file, index) {
+    // Extraer la extensión del archivo
+    const docType = file.type;
+
+    // Comprobar si la extension no es correcta
+    if (!validExtensions.includes(docType)) {
+        //Mensaje de error
+        console.log(`El archivo ${file.name} no tiene una extension válida`);
+        //Aqui borro el archivo del array con el splice
+        ficheros.splice(index, 1);
+        return;
+    }
+
+    //Creo una variable para leer el fichero
+    let reader = new FileReader(); 
+
+    // Aqui leo el archivo para despues poder conseguir la URL con el result 
+    reader.readAsDataURL(file);
+
+
+    //A la variable le pongo el onload que basicamente le dice que una vez se haya leido todo el fichero
+    //se ejecute lo de la funcion para que no de error
+    reader.onload = function () {
+
+        //Aqui me guardo la URL de fichero para poder mostrar-lo en el previw
+        const fileURL = reader.result; 
+
+        // Creo la variable con el resultado que se mostrara de los ficheros
+        let preview = `
+            <div class="previewImage">
+                <img src="${fileURL}"/>
+                <span>${file.name}</span>
+                <span onclick="remove(${index})" class="material-symbols-outlined removeBtn">DELETE</span>
+            </div>
+        `;
+        
+        document.getElementById('preview').innerHTML += preview;
+    };
+
+}
+
+function remove(index){
+    ficheros.splice(index, 1);
+    showFiles();
+
+}
+
+

@@ -44,6 +44,10 @@ document.addEventListener('DOMContentLoaded', function() {
         //Con esta funcion muestra los archivos en el espacio del dropArea
         showFiles();
 
+        //Una vez finalizado el drop vuelve a verse como al principio
+        dropArea.classList.remove('active');
+        dropArea.innerHTML = '<h2>Drag & Drop files</h2><button>Upload files</button>';
+
     });
 
     //Aqui escucho el boton del html para que cuandop se clique se abra el selector de ficheros

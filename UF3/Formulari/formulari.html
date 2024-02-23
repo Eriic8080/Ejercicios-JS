@@ -9,20 +9,23 @@
 <body>
     <form id="form">
         <label >NOM:</label>
-        <input type="text">
+        <input type="text" name="nom">
         <br>
         <label >Correo Electronico:
-            <input type="text" id="email">
+            <input type="text" name="email">
         </label>
         <label id="errorEmail"></label>
         <br>
         <label >Contraseña:
-            <input type="text">
+            <input type="text" name="passwd">
         </label>
         <br>
         <label >Confirma Contraseña:
-            <input type="text">
+            <input type="text" name="confirmPasswd">
         </label>
+        <div id="errores"></div>
+        <br>
+        <button>Enviar</button>
         
     </form>
     

@@ -10,17 +10,17 @@
 
 <?php
 
-    $servername = "bbdd.martamillanlom.cat";
-    $username = "ddb193275";
-    $password = "bbddTest12!%";
-    $dbname = "ddb193275";
+$servername = "localhost:4306";
+$username = "root";
+$password = "";
+$dbname = "productos";
 
     $conn = new mysqli($servername, $username, $password, $dbname);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    $sql = "SELECT * FROM productes";
+    $sql = "SELECT * FROM agregar";
 
     $result = $conn->query($sql);
 
@@ -43,6 +43,7 @@
     
     <table class="table">
         <thead>
+            <a href="ex1Form.php" class="btn btn-outline-info">Inicio</a>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nom</th>
@@ -58,7 +59,7 @@
                                 <th scope="row">' . $array[$i]["id"] . '</th>
                                 <td>' . $array[$i]["nom"] . '</td>
                                 <td><a href="ex1Form.php?id=' . $array[$i]["id"] . '" class="btn btn-outline-info">Edit</a></td>
-                                <td><a href="" class="btn btn-outline-danger">Remove</a></td>
+                                <td><a href="ex1Delete.php?id='.$array[$i]["id"]. '" class="btn btn-outline-danger">Remove</a></td>
                             </tr>';
                 }
                  

@@ -70,8 +70,8 @@ $conn->close();
                                         <th scope="row">' . $array[$i]["id"] . '</th>
                                         <td>' . $array[$i]["nom"] . '</td>
                                         <td><p idProd="' . $array[$i]["id"] . '" class="btnEdit btn btn-outline-info">Edit</p></td>
-                                        <td><a href="" class="btn btn-outline-danger">Remove</a></td>
-                                    </tr>';
+                                        <td><p idProd="' . $array[$i]["id"] . '" class="btnRemove btn btn-outline-danger">Remove</p></td>
+                                        </tr>';
                         }  
                     ?>
                 </tbody>
@@ -103,6 +103,41 @@ $conn->close();
 
             })
         })
+
+        let btnRemove = document.querySelectorAll(".btnRemove");
+        btnRemove.forEach(el=>{
+            el.addEventListener("click", function(){
+
+                let formData = new FormData();
+                //Me guardo la id del producto en un objeto FormData para enviar-lo por AJAX
+                formData.append("id", this.getAttribute("idProd"));
+
+                //Aqui defino las opciones que ara el fetch
+                let options = {
+                        //Indico que usara el metodo POST
+                        method: 'POST',
+                        //Y le paso la ID
+                        body: formData
+                    }
+                    //Hago la solicitud fetch al fichero 
+                    fetch("ex2Delete.php", options)
+                    .then((response) => response.json())    //Paso la respuesta a JSON
+                    .then((data) => {
+                        //Printamos la respuesta del servidor
+                        console.log(data);
+                        // Si la respuesta del campo consulta es TRUE refresca la pagina para mostrar los cambios
+                        if (data.consulta) {
+                            window.location.href = "ex2FormLlistat.php";
+                        } else {
+                            // Si la respuesta del campo consulta es FALSE mostramos el mensaje de error
+                            alert(data.mensaje);
+                        }
+                    })
+
+
+            })
+        })
+
     </script>
 </body>
 </html>

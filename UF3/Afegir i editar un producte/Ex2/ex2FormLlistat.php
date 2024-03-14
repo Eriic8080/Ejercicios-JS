@@ -10,17 +10,17 @@
 
 <?php 
 
-$servername = "bbdd.martamillanlom.cat";
-$username = "ddb193275";
-$password = "bbddTest12!%";
-$dbname = "ddb193275";
+$servername = "localhost:4306";
+$username = "root";
+$password = "";
+$dbname = "productos";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$sql = "SELECT * FROM productes";
+$sql = "SELECT * FROM agregar";
 
 $result = $conn->query($sql);
 

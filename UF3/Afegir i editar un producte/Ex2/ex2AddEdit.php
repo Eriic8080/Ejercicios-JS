@@ -1,9 +1,9 @@
 <?php
     
-    $servername = "bbdd.martamillanlom.cat";
-    $username = "ddb193275";
-    $password = "bbddTest12!%";
-    $dbname = "ddb193275";
+    $servername = "localhost:4306";
+    $username = "root";
+    $password = "";
+    $dbname = "productos";
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -14,9 +14,9 @@
         
     if(isset($_POST["nomProducte"]) && !empty($_POST["nomProducte"])){
         if($_POST["addEdit"]==0){
-            $sql = "INSERT INTO productes (nom) VALUES ('" . $_POST["nomProducte"] ."')";
+            $sql = "INSERT INTO agregar (nom) VALUES ('" . $_POST["nomProducte"] ."')";
         }else{
-            $sql = "UPDATE productes SET nom='" . $_POST["nomProducte"] . "' WHERE id=" . $_POST["addEdit"];
+            $sql = "UPDATE agregar SET nom='" . $_POST["nomProducte"] . "' WHERE id=" . $_POST["addEdit"];
         }
         
 
